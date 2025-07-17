@@ -132,9 +132,11 @@ async function cargarJuegosGestion() {
       <td class="border border-gray-300 px-4 py-2">
         <img src="${juego.imagen}" alt="${juego.nombre}" class="h-16 w-auto object-cover rounded" />
       </td>
-      <td class="border border-gray-300 px-4 py-2 space-x-2">
-        <a href="/editar.html?id=${juego.id}" class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded">Editar</a>
-        <button class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded" onclick="eliminarJuego(${juego.id})">Eliminar</button>
+      <td class="border border-gray-300 px-4 py-2">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <a href="/editar.html?id=${juego.id}" class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded">Editar</a>
+            <button class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded" onclick="eliminarJuego(${juego.id})">Eliminar</button>
+          </div>
       </td>
 
     `;
