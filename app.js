@@ -35,7 +35,7 @@ if (form) {
             imagen: imagen  // aquí usamos la imagen ya sea ingresada o buscada
         };
 
-        const response = await fetch("backend-et-production.up.railway.app/api/juegos", {
+        const response = await fetch("backend-et-production.up.railway.app:8080/api/juegos", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(juego)
@@ -69,7 +69,7 @@ async function cargarJuegos() {
     contenedor.innerHTML = "Cargando juegos...";
 
     try {
-        const response = await fetch("backend-et-production.up.railway.app/api/juegos");
+        const response = await fetch("backend-et-production.up.railway.app:8080/api/juegos");
         if (!response.ok) throw new Error("Error al cargar juegos");
 
         const juegos = await response.json();
@@ -113,7 +113,7 @@ async function cargarJuegosGestion() {
     if (!tbody) return; // No estamos en gestion.html
 
     try {
-        const response = await fetch("backend-et-production.up.railway.app/api/juegos");
+        const response = await fetch("backend-et-production.up.railway.app:8080/api/juegos");
         if (!response.ok) throw new Error("Error al cargar juegos");
 
         const juegos = await response.json();
@@ -164,7 +164,7 @@ async function eliminarJuego(id) {
 
 
     try {
-        const response = await fetch(`backend-et-production.up.railway.app/api/juegos/${id}`, { method: "DELETE" });
+        const response = await fetch(`backend-et-production.up.railway.app:8080/api/juegos/${id}`, { method: "DELETE" });
         if (!response.ok) throw new Error("Error al eliminar el juego");
 
         Swal.fire({
