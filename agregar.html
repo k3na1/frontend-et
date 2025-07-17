@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Juego - Puerto Games</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">Agregar nuevo juego</h1>
+
+    <form id="form-juego" class="space-y-4">
+        <input type="text" id="nombre" placeholder="Nombre del juego" class="w-full border p-2 rounded" required />
+        <input type="text" id="genero" placeholder="Género" class="w-full border p-2 rounded" required />
+        <input type="text" id="plataforma" placeholder="Plataforma" class="w-full border p-2 rounded" required />
+        <textarea id="descripcion" placeholder="Descripción" class="w-full border p-2 rounded" rows="3"></textarea>
+        <input type="text" id="precio" placeholder="Precio (ej: $49.990)" class="w-full border p-2 rounded" />
+        <input type="text" id="imagen" placeholder="URL de imagen" class="w-full border p-2 rounded" />
+
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Guardar</button>
+    </form>
+
+    <a href="/gestion.html" class="mt-4 inline-block text-blue-500 hover:underline">← Volver a Gestión</a>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

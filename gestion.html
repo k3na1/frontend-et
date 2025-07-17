@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Gestionar Juegos - Puerto Games</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body class="bg-gray-100 p-6">
+
+<header class="max-w-4xl mx-auto mb-6 flex justify-between items-center">
+    <h1 class="text-3xl font-bold">Gestionar Juegos</h1>
+    <nav class="space-x-4">
+        <a href="/catalogo.html" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">Catálogo</a>
+        <a href="/agregar.html" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Agregar Juego</a>
+        <a href="/estadisticas.html" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Estadísticas</a>
+    </nav>
+</header>
+
+<main class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+    <table class="w-full table-auto border-collapse border border-gray-300">
+        <thead>
+        <tr class="bg-gray-200">
+            <th class="border border-gray-300 px-4 py-2">ID</th>
+            <th class="border border-gray-300 px-4 py-2">Nombre</th>
+            <th class="border border-gray-300 px-4 py-2">Género</th>
+            <th class="border border-gray-300 px-4 py-2">Plataforma</th>
+            <th class="border border-gray-300 px-4 py-2">Descripción</th>
+            <th class="border border-gray-300 px-4 py-2">Precio</th>
+            <th class="border border-gray-300 px-4 py-2">Imagen</th>
+            <th class="border border-gray-300 px-4 py-2">Acciones</th>
+        </tr>
+        </thead>
+        <tbody id="tabla-juegos">
+        <!-- Filas con juegos aquí -->
+        </tbody>
+    </table>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

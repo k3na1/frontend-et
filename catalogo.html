@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Puerto Games - Catálogo</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto&display=swap" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            color: #e2e8f0;
+        }
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+<!-- Header -->
+<header class="bg-gray-900 text-indigo-400 p-6 shadow-lg sticky top-0 z-50 flex justify-between items-center">
+    <h1 class="text-4xl font-orbitron">Puerto Games</h1>
+    <nav>
+        <a href="/index.html" class="mr-8 hover:text-indigo-300 transition">Inicio</a>
+        <a href="/catalogo.html" class="mr-8 hover:text-indigo-300 transition">Catálogo</a>
+        <a href="/gestion.html" class="hover:text-indigo-300 transition">Gestionar Juegos</a>
+    </nav>
+</header>
+
+<!-- Contenedor catálogo -->
+<main class="max-w-7xl mx-auto p-8">
+    <h2 class="text-3xl mb-8 text-indigo-300 font-orbitron">Catálogo de Juegos</h2>
+
+    <div id="catalogo" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <!-- Aquí se insertan las tarjetas dinámicamente -->
+    </div>
+</main>
+
+<script>
+    async function cargarJuegos() {
+        const contenedor = document.getElementById("catalogo");
+        contenedor.innerHTML = "<p class='col-span-full text-center text-gray-400'>Cargando juegos...</p>";
+
+        try {
+            const response = await fetch("http://localhost:8080/api/juegos");
+            if (!response.ok) throw new Error("Error al cargar juegos");
+
+            const juegos = await response.json();
+
+            if (juegos.length === 0) {
+                contenedor.innerHTML = "<p class='col-span-full text-center text-gray-400'>No hay juegos registrados aún.</p>";
+                return;
+            }
+
+            contenedor.innerHTML = "";
+
+            juegos.forEach(juego => {
+                const card = document.createElement("div");
+                card.className = "bg-gray-800 rounded-lg shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 cursor-pointer flex flex-col";
+
+                card.innerHTML = `
+            <img src="${juego.imagen || 'https://via.placeholder.com/300x180?text=Sin+Imagen'}" alt="${juego.nombre}" class="w-full h-44 object-cover" />
+            <div class="p-5 flex-grow flex flex-col justify-between">
+              <div>
+                <h3 class="text-indigo-400 font-orbitron text-2xl mb-2">${juego.nombre}</h3>
+                <p class="text-gray-300 mb-1"><strong>Género:</strong> ${juego.genero}</p>
+                <p class="text-gray-300 mb-1"><strong>Plataforma:</strong> ${juego.plataforma}</p>
+                <p class="text-gray-300 mb-3">${juego.descripcion}</p>
+              </div>
+              <div>
+                <p class="text-indigo-300 font-bold text-lg mb-3">${juego.precio || 'Gratis'}</p>
+                <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded font-semibold transition duration-300">Comprar</button>
+              </div>
+            </div>
+          `;
+
+                contenedor.appendChild(card);
+            });
+
+        } catch (error) {
+            contenedor.innerHTML = `<p class="col-span-full text-center text-red-600">${error.message}</p>`;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarJuegos);
+</script>
+
+</body>
+</html>

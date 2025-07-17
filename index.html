@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Puerto Games - Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto&display=swap" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            color: #e2e8f0;
+        }
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+<!-- Header -->
+<header class="bg-gray-900 text-indigo-400 p-6 shadow-lg sticky top-0 z-50 flex justify-between items-center">
+    <h1 class="text-4xl font-orbitron">Puerto Games</h1>
+    <nav>
+        <a href="/index.html" class="mr-8 hover:text-indigo-300 transition">Inicio</a>
+        <a href="/catalogo.html" class="mr-8 hover:text-indigo-300 transition">Catálogo</a>
+        <a href="/gestion.html" class="hover:text-indigo-300 transition">Gestionar Juegos</a>
+    </nav>
+</header>
+
+<!-- Hero -->
+<section class="bg-gray-800 py-20 text-center px-4">
+    <h2 class="text-5xl text-indigo-400 font-orbitron mb-6">Bienvenido a Puerto Games</h2>
+    <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
+        Descubre y explora una colección de videojuegos como ningún otro. ¡Desde clásicos hasta joyas ocultas!
+    </p>
+    <a href="/catalogo.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-lg px-8 py-3 rounded transition">
+        Ir al catálogo
+    </a>
+</section>
+
+<!-- Sección de juegos destacados -->
+<section class="max-w-7xl mx-auto px-6 py-16">
+    <h3 class="text-3xl text-indigo-300 font-orbitron mb-10 text-center">Nuestros Juegos</h3>
+    <div id="juegos-destacados" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <!-- Juegos aleatorios se insertarán aquí -->
+    </div>
+</section>
+
+<!-- Js cargar 3 juegos aleatorios -->
+<script>
+    async function cargarJuegosDestacados() {
+        const contenedor = document.getElementById("juegos-destacados");
+
+        try {
+            const response = await fetch("http://localhost:8080/api/juegos");
+            if (!response.ok) throw new Error("Error al cargar juegos");
+
+            const juegos = await response.json();
+
+            if (juegos.length === 0) {
+                contenedor.innerHTML = "<p class='col-span-full text-center text-gray-400'>No hay juegos aún.</p>";
+                return;
+            }
+
+            // Mezclar juegos aleatoriamente
+            const juegosAleatorios = juegos.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+            juegosAleatorios.forEach(juego => {
+                const card = document.createElement("div");
+                card.className = "bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:scale-105 transform transition duration-300";
+
+                card.innerHTML = `
+            <img src="${juego.imagen || 'https://via.placeholder.com/300x180?text=Sin+Imagen'}" alt="${juego.nombre}" class="w-full h-44 object-cover" />
+            <div class="p-4">
+              <h4 class="text-xl text-indigo-400 font-orbitron mb-1">${juego.nombre}</h4>
+              <p class="text-gray-300 text-sm mb-1"><strong>Género:</strong> ${juego.genero}</p>
+              <p class="text-gray-300 text-sm mb-1"><strong>Plataforma:</strong> ${juego.plataforma}</p>
+              <p class="text-gray-300 text-sm truncate mb-2">${juego.descripcion}</p>
+              <p class="text-indigo-300 font-bold">${juego.precio || 'Gratis'}</p>
+            </div>
+          `;
+
+                contenedor.appendChild(card);
+            });
+
+        } catch (error) {
+            contenedor.innerHTML = `<p class="col-span-full text-center text-red-600">${error.message}</p>`;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarJuegosDestacados);
+</script>
+
+</body>
+</html>

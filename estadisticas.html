@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Estadísticas - Puerto Games</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
+    <style>
+        body { font-family: 'Roboto', sans-serif; background: #1a202c; color: #e2e8f0; }
+        h1 { font-family: 'Orbitron', sans-serif; }
+    </style>
+</head>
+<body class="p-6">
+
+<!-- Header -->
+<header class="bg-gray-900 text-indigo-400 p-6 flex justify-between items-center rounded mb-6">
+    <h1 class="text-3xl">Estadísticas de Juegos</h1>
+    <nav>
+        <a href="/index.html" class="mr-6 hover:text-indigo-300">Inicio</a>
+        <a href="/catalogo.html" class="mr-6 hover:text-indigo-300">Catálogo</a>
+        <a href="/gestion.html" class="hover:text-indigo-300">Gestionar</a>
+    </nav>
+</header>
+
+<!-- Gráficos -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-7xl mx-auto">
+    <div>
+        <h2 class="text-xl mb-2">1. Juegos por género</h2>
+        <canvas id="graficoGenero"></canvas>
+    </div>
+    <div>
+        <h2 class="text-xl mb-2">2. Distribución por plataforma</h2>
+        <canvas id="graficoPlataforma"></canvas>
+    </div>
+    <div>
+        <h2 class="text-xl mb-2">3. Evolución de precios</h2>
+        <canvas id="graficoPrecios"></canvas>
+    </div>
+    <div>
+        <h2 class="text-xl mb-2">4. Comparativa por género (PC vs Consola)</h2>
+        <canvas id="graficoRadar"></canvas>
+    </div>
+</div>
+
+<script>
+    async function obtenerDatos() {
+        const response = await fetch("http://localhost:8080/api/juegos");
+        const juegos = await response.json();
+
+        // === 1. Juegos por género ===
+        const generos = {};
+        juegos.forEach(j => {
+            generos[j.genero] = (generos[j.genero] || 0) + 1;
+        });
+
+        const generoLabels = Object.keys(generos);
+        const generoData = Object.values(generos);
+
+        new Chart(document.getElementById("graficoGenero"), {
+            type: "bar",
+            data: {
+                labels: generoLabels,
+                datasets: [{
+                    label: "Cantidad",
+                    data: generoData,
+                    backgroundColor: "rgba(99, 102, 241, 0.7)",
+                }]
+            }
+        });
+
+        // === 2. Distribución por plataforma ===
+        const plataformas = {};
+        juegos.forEach(j => {
+            plataformas[j.plataforma] = (plataformas[j.plataforma] || 0) + 1;
+        });
+
+        new Chart(document.getElementById("graficoPlataforma"), {
+            type: "pie",
+            data: {
+                labels: Object.keys(plataformas),
+                datasets: [{
+                    label: "Plataforma",
+                    data: Object.values(plataformas),
+                    backgroundColor: ["#60a5fa", "#34d399", "#f87171", "#fbbf24", "#a78bfa"],
+                }]
+            }
+        });
+
+        // === 3. Evolución de precios ===
+        const precios = juegos.map(j => parseInt(j.precio.replace(/[^\d]/g, "")) || 0);
+        const nombres = juegos.map(j => j.nombre);
+
+        new Chart(document.getElementById("graficoPrecios"), {
+            type: "line",
+            data: {
+                labels: nombres,
+                datasets: [{
+                    label: "Precio ($)",
+                    data: precios,
+                    borderColor: "#f472b6",
+                    backgroundColor: "rgba(244,114,182,0.3)",
+                    tension: 0.4
+                }]
+            }
+        });
+
+        // === 4. Comparativa por género entre PC y PS5 ===
+
+        const generosPC = {};
+        const generosConsola = {};
+
+        juegos.forEach(j => {
+            if (j.plataforma === "PC") {
+                generosPC[j.genero] = (generosPC[j.genero] || 0) + 1;
+            } else {
+                generosConsola[j.genero] = (generosConsola[j.genero] || 0) + 1;
+            }
+        });
+
+
+        const todosLosGeneros = Array.from(new Set([...Object.keys(generosPC), ...Object.keys(generosConsola)]));
+        const datosPC = todosLosGeneros.map(g => generosPC[g] || 0);
+        const datosConsola = todosLosGeneros.map(g => generosConsola[g] || 0);
+
+        new Chart(document.getElementById("graficoRadar"), {
+            type: "radar",
+            data: {
+                labels: todosLosGeneros,
+                datasets: [
+                    {
+                        label: "PC",
+                        data: datosPC,
+                        backgroundColor: "rgba(59,130,246,0.3)",
+                        borderColor: "#3b82f6"
+                    },
+                    {
+                        label: "Consola",
+                        data: datosConsola,
+                        backgroundColor: "rgba(244,63,94,0.3)",
+                        borderColor: "#f43f5e"
+                    }
+                ]
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", obtenerDatos);
+</script>
+</body>
+</html>
