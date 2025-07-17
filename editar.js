@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Obtener datos del juego
-    fetch(`http://localhost:8080/api/juegos`)
+    fetch(`backend-et-production.up.railway.app:8080/api/juegos`)
         .then(res => res.json())
         .then(juegos => {
             const juego = juegos.find(j => j.id == juegoId);
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:8080/api/juegos/${fields.id.value}`, {
+            const response = await fetch(`backend-et-production.up.railway.app:8080/api/juegos/${fields.id.value}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(cambios)
