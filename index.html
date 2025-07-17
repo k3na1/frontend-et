@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Puerto Games - Inicio</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Google Fonts -->
@@ -14,7 +16,7 @@
             background: linear-gradient(135deg, #1a202c, #2d3748);
             color: #e2e8f0;
         }
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             font-family: 'Orbitron', sans-serif;
         }
     </style>
@@ -33,17 +35,18 @@
 
 <!-- Hero -->
 <section class="bg-gray-800 py-20 text-center px-4">
-    <h2 class="text-5xl text-indigo-400 font-orbitron mb-6">Bienvenido a Puerto Games</h2>
-    <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
-        Descubre y explora una colección de videojuegos como ningún otro. ¡Desde clásicos hasta joyas ocultas!
-    </p>
+    <h2 class="text-3xl sm:text-5xl text-indigo-400 font-orbitron mb-6"> Bienvenido a Puerto Games </h2>
+    <p class="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-8">
+    Descubre y explora una colección de videojuegos como ningún otro. ¡Desde clásicos hasta joyas ocultas!
+</p>
+
     <a href="/catalogo.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-lg px-8 py-3 rounded transition">
         Ir al catálogo
     </a>
 </section>
 
 <!-- Sección de juegos destacados -->
-<section class="max-w-7xl mx-auto px-6 py-16">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
     <h3 class="text-3xl text-indigo-300 font-orbitron mb-10 text-center">Nuestros Juegos</h3>
     <div id="juegos-destacados" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         <!-- Juegos aleatorios se insertarán aquí -->
