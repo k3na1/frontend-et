@@ -45,7 +45,7 @@
 
 <script>
     async function obtenerDatos() {
-        const response = await fetch("http://localhost:8080/api/juegos");
+        const response = await fetch("https://backend-et-production.up.railway.app/api/juegos");
         const juegos = await response.json();
 
         // === 1. Juegos por género ===
