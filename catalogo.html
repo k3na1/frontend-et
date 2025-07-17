@@ -48,7 +48,7 @@
         contenedor.innerHTML = "<p class='col-span-full text-center text-gray-400'>Cargando juegos...</p>";
 
         try {
-            const response = await fetch("http://localhost:8080/api/juegos");
+            const response = await fetch("backend-et-production.up.railway.app:8080/api/juegos");
             if (!response.ok) throw new Error("Error al cargar juegos");
 
             const juegos = await response.json();
